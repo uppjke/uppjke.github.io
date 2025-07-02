@@ -2,125 +2,686 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wish-лист малыша Гусева 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;background:#f6f8fa;color:#24292e}
-    header{background:#409eff;color:#fff;padding:1.2rem 1rem;text-align:center;font-size:1.4rem}
-    .wrap{max-width:920px;margin:0 auto;padding:2rem 1rem}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:.6rem .4rem;border-bottom:1px solid #e1e4e8}
-    th{background:#fafbfc;text-align:left}
-    tr:nth-child(even){background:#fdfdfd}
-    a.btn{display:inline-block;margin:.2rem 0;padding:.4rem .8rem;border-radius:6px;background:#28a745;color:#fff;text-decoration:none;font-size:.9rem}
-    a.btn:hover{background:#22963b}
-    .note{font-size:.85rem;color:#586069;margin:1rem 0 2rem}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #1a202c;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 0;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .countdown {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 500px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .countdown h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .countdown-timer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .time-unit {
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      padding: 1rem 0.5rem;
+      color: #667eea;
+    }
+
+    .time-number {
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .time-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .gifts-section {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gifts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .gift-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .gift-card.reserved {
+      opacity: 0.6;
+      background: #f8f9fa;
+    }
+
+    .gift-card.reserved::before {
+      content: "ЗАБРОНИРОВАНО";
+      position: absolute;
+      top: 1rem;
+      right: -2rem;
+      background: #dc3545;
+      color: white;
+      padding: 0.5rem 3rem;
+      transform: rotate(45deg);
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .gift-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      color: #2d3748;
+    }
+
+    .gift-description {
+      color: #666;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .gift-description a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .gift-description a:hover {
+      text-decoration: underline;
+    }
+
+    .gift-price {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 1.5rem;
+    }
+
+    .reserve-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .reserve-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #5a67d8, #6b46c1);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .reserve-btn:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      animation: modalAppear 0.3s ease;
+    }
+
+    @keyframes modalAppear {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .close {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #2d3748;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #5a67d8, #6b46c1);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: white;
+    }
+
+    .footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .gifts-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .countdown-timer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+      
+      .gifts-section {
+        padding: 2rem 1rem;
+      }
+    }
+
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .error-message {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+    }
   </style>
 </head>
 <body>
-<header>Wish-лист малыша Гусева 2025</header>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>👶 Wish-лист малыша Гусева</h1>
+      <p>Добро пожаловать в наш особенный список желаний! Здесь вы можете выбрать и забронировать подарок для нашего будущего малыша.</p>
+      
+      <div class="countdown">
+        <h3>⏰ До встречи с малышом осталось:</h3>
+        <div class="countdown-timer" id="countdown">
+          <div class="time-unit">
+            <span class="time-number" id="days">0</span>
+            <span class="time-label">дней</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="hours">0</span>
+            <span class="time-label">часов</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="minutes">0</span>
+            <span class="time-label">минут</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="seconds">0</span>
+            <span class="time-label">секунд</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="wrap">
-  <p class="note">
-    👶 ПДР — 4 ноября 2025.<br />
-    Чтобы «забронировать» подарок, нажмите «Забронировать» — откроется письмо-черновик родителям. После вашего письма подарок
-    отметим как занятый.
-  </p>
+    <!-- Gifts Section -->
+    <div class="gifts-section">
+      <h2 class="section-title">🎁 Список подарков</h2>
+      <p class="section-subtitle">
+        Выберите подарок, который хотели бы преподнести, и нажмите "Забронировать". 
+        Мы свяжемся с вами для уточнения деталей.
+      </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Подарок</th>
-        <th>Описание / ссылка</th>
-        <th>Цена&nbsp;≈</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Автокресло Avionaut Pixel PRO 2.0 C</td>
-        <td><a href="https://avionaut.ru/pixel-pro-2">люлька 0-13 кг, Stone Grey</a></td>
-        <td>27 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20Pixel%20Pro&body=Беру%20автокресло%20Avionaut%20Pixel%20PRO%202.0%20C.">Забронировать</a></td>
-      </tr>
+      <div class="gifts-grid" id="giftsGrid">
+        <!-- Gifts will be populated by JavaScript -->
+      </div>
+    </div>
 
-      <tr>
-        <td>Isofix-база Avionaut IQ 2.0 C</td>
-        <td><a href="https://avionaut.ru/iq-base-2">для Pixel / Cosmo</a></td>
-        <td>15 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20Isofix%20базы&body=Беру%20базу%20IQ%202.0%20C.">Забронировать</a></td>
-      </tr>
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        Вопросы? Пишите <a href="mailto:parents@example.com">нам</a> или звоните <strong>+7 900 000-00-00</strong><br>
+        Спасибо за участие! 💙
+      </p>
+    </div>
+  </div>
 
-      <tr>
-        <td>Стульчик Peg-Perego Prima Pappa</td>
-        <td><a href="https://www.pegperego.ru/products/prima-pappa">цвет Ice</a></td>
-        <td>14 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20стульчика&body=Беру%20стульчик%20Peg-Perego%20Prima%20Pappa.">Забронировать</a></td>
-      </tr>
+  <!-- Modal -->
+  <div id="reservationModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle">Бронирование подарка</h2>
+      
+      <div class="success-message" id="successMessage">
+        Спасибо! Ваша бронь успешно отправлена. Мы свяжемся с вами в ближайшее время.
+      </div>
+      
+      <div class="error-message" id="errorMessage">
+        Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз или свяжитесь с нами напрямую.
+      </div>
 
-      <tr>
-        <td>Видео-няня Motorola PIP1510</td>
-        <td><a href="https://motorola-home.ru/pip1510">радиоканал + App</a></td>
-        <td>11 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20видео-няни&body=Беру%20видео-няню%20Motorola%20PIP1510.">Забронировать</a></td>
-      </tr>
+      <form id="reservationForm">
+        <div class="form-group">
+          <label for="giftName">Подарок:</label>
+          <input type="text" id="giftName" name="giftName" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="userName">Ваше имя *:</label>
+          <input type="text" id="userName" name="userName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="userPhone">Телефон *:</label>
+          <input type="tel" id="userPhone" name="userPhone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="userEmail">Email:</label>
+          <input type="email" id="userEmail" name="userEmail">
+        </div>
+        
+        <div class="form-group">
+          <label for="userMessage">Сообщение:</label>
+          <textarea id="userMessage" name="userMessage" rows="3" placeholder="Дополнительные пожелания или вопросы..."></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Забронировать подарок</button>
+      </form>
+    </div>
+  </div>
 
-      <tr>
-        <td>Увлажнитель Philips HU4813/10</td>
-        <td><a href="https://www.philips.ru/c-p/HU4813_10">серия 2000</a></td>
-        <td>10 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20увлажнителя&body=Беру%20увлажнитель%20Philips%20HU4813.">Забронировать</a></td>
-      </tr>
+  <script>
+    // Gift data
+    const gifts = [
+      {
+        id: 1,
+        name: "Автокресло Avionaut Pixel PRO 2.0 C",
+        description: "Люлька 0-13 кг, Stone Grey",
+        link: "https://avionaut.ru/pixel-pro-2",
+        price: "27 000 ₽",
+        reserved: false
+      },
+      {
+        id: 2,
+        name: "Isofix-база Avionaut IQ 2.0 C",
+        description: "Для Pixel / Cosmo",
+        link: "https://avionaut.ru/iq-base-2",
+        price: "15 000 ₽",
+        reserved: false
+      },
+      {
+        id: 3,
+        name: "Стульчик Peg-Perego Prima Pappa",
+        description: "Цвет Ice",
+        link: "https://www.pegperego.ru/products/prima-pappa",
+        price: "14 000 ₽",
+        reserved: false
+      },
+      {
+        id: 4,
+        name: "Видео-няня Motorola PIP1510",
+        description: "Радиоканал + App",
+        link: "https://motorola-home.ru/pip1510",
+        price: "11 000 ₽",
+        reserved: false
+      },
+      {
+        id: 5,
+        name: "Увлажнитель Philips HU4813/10",
+        description: "Серия 2000",
+        link: "https://www.philips.ru/c-p/HU4813_10",
+        price: "10 000 ₽",
+        reserved: false
+      },
+      {
+        id: 6,
+        name: "Эрго-рюкзак Ergobaby Omni Breeze",
+        description: "Pearl Grey",
+        link: "https://ergobaby.ru/omni-breeze",
+        price: "16 000 ₽",
+        reserved: false
+      },
+      {
+        id: 7,
+        name: "Молокоотсос Medela Swing Maxi 2.0",
+        description: "Двойной, 2-фазный",
+        link: "https://medela.ru/product/swing-maxi",
+        price: "18 000 ₽",
+        reserved: false
+      },
+      {
+        id: 8,
+        name: "Манеж-кровать Joie Commuter Change",
+        description: "С пеленальным блоком",
+        link: "https://joie.com/ru/commuter-change",
+        price: "11 000 ₽",
+        reserved: false
+      },
+      {
+        id: 9,
+        name: "Зимний конверт Elodie Details",
+        description: "Цвет Dune",
+        link: "https://elodiedetails.com",
+        price: "9 000 ₽",
+        reserved: false
+      },
+      {
+        id: 10,
+        name: "Спальный мешок Love to Dream TOG 2.5",
+        description: "Размер M",
+        link: "https://lovetodream.ru/product/swaddle-up-transition-bag-2-5tog",
+        price: "4 500 ₽",
+        reserved: false
+      }
+    ];
 
-      <tr>
-        <td>Эрго-рюкзак Ergobaby Omni Breeze</td>
-        <td><a href="https://ergobaby.ru/omni-breeze">Pearl Grey</a></td>
-        <td>16 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20эрго-рюкзака&body=Дарю%20Ergobaby%20Omni%20Breeze.">Забронировать</a></td>
-      </tr>
+    // Google Sheets integration
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwak3fkK3ur4KtMP8-pW4GTQV6TvcYqXe7kEyV4XSL88VIvFx10U2_WFebplygjAmwzfw/exec'; // Replace with your Google Apps Script URL
 
-      <tr>
-        <td>Молокоотсос Medela Swing Maxi 2.0</td>
-        <td><a href="https://medela.ru/product/swing-maxi">двойной, 2-фазный</a></td>
-        <td>18 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20молокоотсоса&body=Беру%20Medela%20Swing%20Maxi%202.0.">Забронировать</a></td>
-      </tr>
+    // Countdown timer
+    function updateCountdown() {
+      const targetDate = new Date('2025-11-04T00:00:00').getTime();
+      const now = new Date().getTime();
+      const difference = targetDate - now;
 
-      <tr>
-        <td>Манеж-кровать Joie Commuter Change</td>
-        <td><a href="https://joie.com/ru/commuter-change">с пеленальным блоком</a></td>
-        <td>11 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20манежа&body=Подарю%20Joie%20Commuter%20Change.">Забронировать</a></td>
-      </tr>
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-      <tr>
-        <td>Зимний конверт Elodie Details</td>
-        <td><a href="https://elodiedetails.com">цвет Dune</a></td>
-        <td>9 000 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20зимнего%20конверта&body=Беру%20зимний%20конверт%20Elodie%20Details.">Забронировать</a></td>
-      </tr>
+      document.getElementById('days').textContent = days > 0 ? days : 0;
+      document.getElementById('hours').textContent = hours > 0 ? hours : 0;
+      document.getElementById('minutes').textContent = minutes > 0 ? minutes : 0;
+      document.getElementById('seconds').textContent = seconds > 0 ? seconds : 0;
+    }
 
-      <tr>
-        <td>Спальный мешок Love to Dream TOG 2.5</td>
-        <td><a href="https://lovetodream.ru/product/swaddle-up-transition-bag-2-5tog">размер M</a></td>
-        <td>4 500 ₽</td>
-        <td><a class="btn"
-               href="mailto:parents@example.com?subject=Бронь%20спального%20мешка&body=Дарю%20спальный%20мешок%20Love%20to%20Dream.">Забронировать</a></td>
-      </tr>
-    </tbody>
-  </table>
+    // Render gifts
+    function renderGifts() {
+      const giftsGrid = document.getElementById('giftsGrid');
+      giftsGrid.innerHTML = '';
 
-  <p class="note">
-    Вопросы — пишите <a href="mailto:parents@example.com">нам</a> или звоните <b>+7 900 000-00-00</b>. Спасибо за участие! 💙
-  </p>
-</div>
+      gifts.forEach(gift => {
+        const giftCard = document.createElement('div');
+        giftCard.className = `gift-card ${gift.reserved ? 'reserved' : ''}`;
+        
+        giftCard.innerHTML = `
+          <h3 class="gift-title">${gift.name}</h3>
+          <p class="gift-description">
+            <a href="${gift.link}" target="_blank">${gift.description}</a>
+          </p>
+          <div class="gift-price">${gift.price}</div>
+          <button class="reserve-btn" onclick="openReservationModal(${gift.id})" ${gift.reserved ? 'disabled' : ''}>
+            ${gift.reserved ? 'Уже забронировано' : 'Забронировать'}
+          </button>
+        `;
+        
+        giftsGrid.appendChild(giftCard);
+      });
+    }
+
+    // Modal functionality
+    function openReservationModal(giftId) {
+      const gift = gifts.find(g => g.id === giftId);
+      if (!gift || gift.reserved) return;
+
+      document.getElementById('giftName').value = gift.name;
+      document.getElementById('modalTitle').textContent = `Бронирование: ${gift.name}`;
+      document.getElementById('reservationModal').style.display = 'block';
+      
+      // Hide messages
+      document.getElementById('successMessage').style.display = 'none';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    function closeModal() {
+      document.getElementById('reservationModal').style.display = 'none';
+      document.getElementById('reservationForm').reset();
+    }
+
+    // Form submission
+    async function submitReservation(formData) {
+      try {
+        console.log('Отправка данных:', formData);
+        
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData
+        });
+        
+        console.log('Ответ сервера:', response);
+        
+        const responseText = await response.text();
+        console.log('Текст ответа:', responseText);
+        
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseError) {
+          console.error('Ошибка парсинга JSON:', parseError);
+          result = { status: 'error', message: 'Неверный формат ответа сервера' };
+        }
+        
+        if (result.status === 'success') {
+          document.getElementById('successMessage').style.display = 'block';
+          document.getElementById('reservationForm').style.display = 'none';
+          
+          // Mark gift as reserved (in real app, this would come from server)
+          const giftName = formData.get('giftName');
+          const gift = gifts.find(g => g.name === giftName);
+          if (gift) {
+            gift.reserved = true;
+            renderGifts();
+          }
+          
+          setTimeout(() => {
+            closeModal();
+            document.getElementById('reservationForm').style.display = 'block';
+          }, 3000);
+        } else {
+          throw new Error(result.message || 'Ошибка сервера');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('errorMessage').style.display = 'block';
+        document.getElementById('errorMessage').innerHTML = `
+          <strong>Ошибка:</strong> ${error.message}<br>
+          <small>Проверьте консоль разработчика для подробностей</small>
+        `;
+      }
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize countdown
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+      
+      // Render gifts
+      renderGifts();
+      
+      // Modal events
+      document.querySelector('.close').onclick = closeModal;
+      window.onclick = function(event) {
+        const modal = document.getElementById('reservationModal');
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
+      
+      // Form submission
+      document.getElementById('reservationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        formData.append('timestamp', new Date().toISOString());
+        
+        submitReservation(formData);
+      });
+    });
+  </script>
 </body>
 </html>
