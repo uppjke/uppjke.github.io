@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест формы</title>
+</head>
+<body>
+    <h1>Тест отправки данных в Google Apps Script</h1>
+    
+    <form id="testForm">
+        <div>
+            <label>Подарок:</label>
+            <input type="text" id="giftName" name="giftName" value="Тестовый подарок" required>
+        </div>
+        <div>
+            <label>Имя:</label>
+            <input type="text" id="userName" name="userName" value="Тест Тестович" required>
+        </div>
+        <div>
+            <label>Телефон:</label>
+            <input type="tel" id="userPhone" name="userPhone" value="+7 900 000-00-00" required>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" id="userEmail" name="userEmail" value="test@example.com">
+        </div>
+        <div>
+            <label>Сообщение:</label>
+            <textarea id="userMessage" name="userMessage">Тестовое сообщение</textarea>
+        </div>
+        <button type="submit">Отправить тест</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        // ЗАМЕНИТЕ НА ВАШ РЕАЛЬНЫЙ URL GOOGLE APPS SCRIPT
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+        
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Отправка...';
+            
+            try {
+                // Собираем данные из формы
+                const formData = new URLSearchParams();
+                formData.append('giftName', document.getElementById('giftName').value);
+                formData.append('userName', document.getElementById('userName').value);
+                formData.append('userPhone', document.getElementById('userPhone').value);
+                formData.append('userEmail', document.getElementById('userEmail').value);
+                formData.append('userMessage', document.getElementById('userMessage').value);
+                formData.append('timestamp', new Date().toISOString());
+                
+                console.log('Отправляемые данные:', formData.toString());
+                
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString()
+                });
+                
+                const responseText = await response.text();
+                console.log('Ответ сервера:', responseText);
+                
+                try {
+                    const result = JSON.parse(responseText);
+                    if (result.status === 'success') {
+                        resultDiv.innerHTML = '<div style="color: green;">✅ Успешно отправлено!</div>';
+                    } else {
+                        resultDiv.innerHTML = '<div style="color: red;">❌ Ошибка: ' + result.message + '</div>';
+                    }
+                } catch (parseError) {
+                    resultDiv.innerHTML = '<div style="color: orange;">⚠️ Неожиданный ответ: ' + responseText + '</div>';
+                }
+                
+            } catch (error) {
+                console.error('Ошибка:', error);
+                resultDiv.innerHTML = '<div style="color: red;">❌ Ошибка отправки: ' + error.message + '</div>';
+            }
+        });
+    </script>
+</body>
+</html>

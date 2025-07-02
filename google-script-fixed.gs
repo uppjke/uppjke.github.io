@@ -7,6 +7,11 @@ function doPost(e) {
     const SPREADSHEET_ID = '1yDKAVW0Rli6rlvm7BQNE933kDcz_x6CO60NnkyMIS0A';
     const SHEET_NAME = 'Бронирования';
     
+    // Логируем полученные данные для отладки
+    console.log('Полученный объект e:', JSON.stringify(e));
+    console.log('e.parameter:', e.parameter);
+    console.log('e.postData:', e.postData);
+    
     // Получаем данные из POST запроса
     let formData = {};
     
@@ -16,30 +21,39 @@ function doPost(e) {
     }
     
     // Проверяем тип запроса и извлекаем данные соответственно
-    if (e.parameter) {
-      // Стандартные POST параметры
+    if (e.parameter && Object.keys(e.parameter).length > 0) {
+      // Стандартные POST параметры (это основной путь для FormData)
       formData = e.parameter;
-    } else if (e.postData && e.postData.type === 'application/x-www-form-urlencoded' && e.postData.contents) {
-      // URL-encoded данные
-      const params = new URLSearchParams(e.postData.contents);
-      for (const [key, value] of params) {
-        formData[key] = value;
-      }
+      console.log('Используем e.parameter:', formData);
     } else if (e.postData && e.postData.contents) {
-      // Другие типы POST данных
-      try {
-        // Пробуем парсить как JSON
-        formData = JSON.parse(e.postData.contents);
-      } catch (jsonError) {
-        // Если не JSON, пробуем как URL-encoded
+      console.log('Используем e.postData.contents:', e.postData.contents);
+      console.log('Content-Type:', e.postData.type);
+      
+      if (e.postData.type === 'application/x-www-form-urlencoded') {
+        // URL-encoded данные
         const params = new URLSearchParams(e.postData.contents);
         for (const [key, value] of params) {
           formData[key] = value;
         }
+      } else {
+        // Другие типы POST данных
+        try {
+          // Пробуем парсить как JSON
+          formData = JSON.parse(e.postData.contents);
+        } catch (jsonError) {
+          // Если не JSON, пробуем как URL-encoded
+          const params = new URLSearchParams(e.postData.contents);
+          for (const [key, value] of params) {
+            formData[key] = value;
+          }
+        }
       }
     } else {
+      console.log('Нет данных в запросе');
       throw new Error('Не удалось извлечь данные из запроса');
     }
+    
+    console.log('Извлеченные данные формы:', formData);
     
     // Открываем таблицу
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);

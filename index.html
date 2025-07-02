@@ -357,31 +357,8 @@
   <div class="container">
     <!-- Hero Section -->
     <div class="hero">
-      <h1>👶 Wish-лист малыша Гусева</h1>
+      <h1>👶 Wish-лист малыша</h1>
       <p>Добро пожаловать в наш особенный список желаний! Здесь вы можете выбрать и забронировать подарок для нашего будущего малыша.</p>
-      
-      <div class="countdown">
-        <h3>⏰ До встречи с малышом осталось:</h3>
-        <div class="countdown-timer" id="countdown">
-          <div class="time-unit">
-            <span class="time-number" id="days">0</span>
-            <span class="time-label">дней</span>
-          </div>
-          <div class="time-unit">
-            <span class="time-number" id="hours">0</span>
-            <span class="time-label">часов</span>
-          </div>
-          <div class="time-unit">
-            <span class="time-number" id="minutes">0</span>
-            <span class="time-label">минут</span>
-          </div>
-          <div class="time-unit">
-            <span class="time-number" id="seconds">0</span>
-            <span class="time-label">секунд</span>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Gifts Section -->
     <div class="gifts-section">
@@ -603,16 +580,26 @@
       try {
         console.log('Отправка данных:', formData);
         
+        // Конвертируем FormData в URLSearchParams для лучшей совместимости
+        const urlParams = new URLSearchParams();
+        for (let [key, value] of formData.entries()) {
+          urlParams.append(key, value);
+        }
+        
+        console.log('URL параметры:', urlParams.toString());
+        
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'cors',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: formData
+          body: urlParams.toString()
         });
         
         console.log('Ответ сервера:', response);
+        console.log('Status:', response.status);
+        console.log('Headers:', response.headers);
         
         const responseText = await response.text();
         console.log('Текст ответа:', responseText);
@@ -622,7 +609,8 @@
           result = JSON.parse(responseText);
         } catch (parseError) {
           console.error('Ошибка парсинга JSON:', parseError);
-          result = { status: 'error', message: 'Неверный формат ответа сервера' };
+          console.log('Исходный текст ответа:', responseText);
+          result = { status: 'error', message: 'Неверный формат ответа сервера: ' + responseText };
         }
         
         if (result.status === 'success') {
@@ -676,8 +664,20 @@
       document.getElementById('reservationForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const formData = new FormData(this);
+        // Собираем данные из формы вручную
+        const formData = new FormData();
+        formData.append('giftName', document.getElementById('giftName').value);
+        formData.append('userName', document.getElementById('userName').value);
+        formData.append('userPhone', document.getElementById('userPhone').value);
+        formData.append('userEmail', document.getElementById('userEmail').value);
+        formData.append('userMessage', document.getElementById('userMessage').value);
         formData.append('timestamp', new Date().toISOString());
+        
+        // Выводим данные в консоль для отладки
+        console.log('Отправляемые данные:');
+        for (let [key, value] of formData.entries()) {
+          console.log(key, ':', value);
+        }
         
         submitReservation(formData);
       });
