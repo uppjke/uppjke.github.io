@@ -8,17 +8,18 @@ function doPost(e) {
     const SHEET_NAME = 'Бронирования';
     
     // Логируем полученные данные для отладки
-    console.log('Полученный объект e:', JSON.stringify(e));
+    console.log('Полученный объект e:', e ? JSON.stringify(e) : 'undefined');
+    
+    // Проверяем, что объект e существует
+    if (!e) {
+      throw new Error('Объект события не определен - функция должна вызываться через HTTP POST запрос');
+    }
+    
     console.log('e.parameter:', e.parameter);
     console.log('e.postData:', e.postData);
     
     // Получаем данные из POST запроса
     let formData = {};
-    
-    // Проверяем, что объект e существует
-    if (!e) {
-      throw new Error('Объект события не определен');
-    }
     
     // Проверяем тип запроса и извлекаем данные соответственно
     if (e.parameter && Object.keys(e.parameter).length > 0) {
@@ -49,7 +50,7 @@ function doPost(e) {
         }
       }
     } else {
-      console.log('Нет данных в запросе');
+      console.log('Нет данных в запросе. e.parameter:', e.parameter, 'e.postData:', e.postData);
       throw new Error('Не удалось извлечь данные из запроса');
     }
     
@@ -189,7 +190,60 @@ function testDoPost() {
     }
   };
   
+  console.log('Запуск тестовой функции с данными:', testEvent);
+  
   const result = doPost(testEvent);
   console.log('Результат теста:', result.getContent());
   return result;
+}
+
+// Дополнительная тестовая функция для проверки самой таблицы
+function testSpreadsheet() {
+  try {
+    const SPREADSHEET_ID = '1yDKAVW0Rli6rlvm7BQNE933kDcz_x6CO60NnkyMIS0A';
+    const SHEET_NAME = 'Бронирования';
+    
+    const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    console.log('Таблица найдена:', spreadsheet.getName());
+    
+    let sheet = spreadsheet.getSheetByName(SHEET_NAME);
+    if (!sheet) {
+      console.log('Лист "Бронирования" не найден, создаю...');
+      sheet = spreadsheet.insertSheet(SHEET_NAME);
+      
+      // Добавляем заголовки
+      sheet.getRange(1, 1, 1, 6).setValues([[
+        'Дата/Время', 'Подарок', 'Имя', 'Телефон', 'Email', 'Сообщение'
+      ]]);
+      
+      // Форматируем заголовки
+      const headerRange = sheet.getRange(1, 1, 1, 6);
+      headerRange.setFontWeight('bold');
+      headerRange.setBackground('#667eea');
+      headerRange.setFontColor('#ffffff');
+      
+      console.log('Лист создан и заголовки добавлены');
+    } else {
+      console.log('Лист найден:', sheet.getName());
+    }
+    
+    // Добавляем тестовую запись
+    const testData = [
+      new Date().toLocaleString('ru-RU'),
+      'Тестовый подарок из функции testSpreadsheet',
+      'Тест Тестович',
+      '+7 900 000-00-00',
+      'test@example.com',
+      'Тестовое сообщение'
+    ];
+    
+    sheet.appendRow(testData);
+    console.log('Тестовая запись добавлена');
+    
+    return 'Тест успешно завершен';
+    
+  } catch (error) {
+    console.error('Ошибка в тесте таблицы:', error);
+    return 'Ошибка: ' + error.toString();
+  }
 }
