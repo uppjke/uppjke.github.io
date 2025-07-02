@@ -48,48 +48,6 @@
       margin: 0 auto 2rem;
     }
 
-    .countdown {
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 2rem;
-      margin: 2rem auto;
-      max-width: 500px;
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    .countdown h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: white;
-    }
-
-    .countdown-timer {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-      gap: 1rem;
-      text-align: center;
-    }
-
-    .time-unit {
-      background: rgba(255,255,255,0.9);
-      border-radius: 12px;
-      padding: 1rem 0.5rem;
-      color: #667eea;
-    }
-
-    .time-number {
-      font-size: 2rem;
-      font-weight: 700;
-      display: block;
-    }
-
-    .time-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-
     .gifts-section {
       background: white;
       border-radius: 20px;
@@ -321,10 +279,6 @@
         grid-template-columns: 1fr;
       }
       
-      .countdown-timer {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
       .container {
         padding: 1rem;
       }
@@ -357,8 +311,9 @@
   <div class="container">
     <!-- Hero Section -->
     <div class="hero">
-      <h1>👶 Wish-лист малыша</h1>
+      <h1>👶 Wish-лист малыша Гусева</h1>
       <p>Добро пожаловать в наш особенный список желаний! Здесь вы можете выбрать и забронировать подарок для нашего будущего малыша.</p>
+    </div>
 
     <!-- Gifts Section -->
     <div class="gifts-section">
@@ -513,24 +468,7 @@
     ];
 
     // Google Sheets integration
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwak3fkK3ur4KtMP8-pW4GTQV6TvcYqXe7kEyV4XSL88VIvFx10U2_WFebplygjAmwzfw/exec'; // Replace with your Google Apps Script URL
-
-    // Countdown timer
-    function updateCountdown() {
-      const targetDate = new Date('2025-11-04T00:00:00').getTime();
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      document.getElementById('days').textContent = days > 0 ? days : 0;
-      document.getElementById('hours').textContent = hours > 0 ? hours : 0;
-      document.getElementById('minutes').textContent = minutes > 0 ? minutes : 0;
-      document.getElementById('seconds').textContent = seconds > 0 ? seconds : 0;
-    }
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwak3fkK3ur4KtMP8-pW4GTQV6TvcYqXe7kEyV4XSL88VIvFx10U2_WFebplygjAmwzfw/exec';
 
     // Render gifts
     function renderGifts() {
@@ -644,10 +582,6 @@
 
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize countdown
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-      
       // Render gifts
       renderGifts();
       
